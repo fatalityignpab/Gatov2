@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnX,btnO,btnReinicio;
     TextView lblNombre;
     private String s1,s2,s3,s4,s5,s6,s7,s8,s9;
+    private int hola; // Prueba para ver si funciona el Github
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
