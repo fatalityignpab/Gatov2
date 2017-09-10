@@ -17,10 +17,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnX,btnO,btnReinicio, btnHistorial;
     TextView lblNombre;
     private String s1,s2,s3,s4,s5,s6,s7,s8,s9;
-    private int puntX, puntO; // Para los puntajes (Primero se lee y luego se escribe)
-
-    //Shared (dice que se guarda en el data/data)
-    private final SharedPreferences hist = getSharedPreferences("Historial", Context.MODE_PRIVATE);
+    private int puntX = 0, puntO = 0; // Para los puntajes (Primero se lee y luego se escribe)
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Labels
         lblNombre = (TextView) findViewById(R.id.lblNombre);
-
-        //Obtener Puntos
-        puntX = hist.getInt("Puntaje X", 0); // Revisar en como obtener el puntaje del XML
-        puntO = hist.getInt("Puntaje O", 0); // Revisar en como obtener el puntaje del XML
 
         //Acciones de los botones
         btnO.setOnClickListener(
@@ -79,11 +72,16 @@ public class MainActivity extends AppCompatActivity {
             }
         );
 
+        //Shared (dice que se guarda en el data/data)
+        final SharedPreferences hist = getSharedPreferences("HistorialPuntaje", Context.MODE_PRIVATE);
+
         btnHistorial.setOnClickListener(
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    hist.getInt("Puntaje X", 0); // Revisar
+                    puntX = hist.getInt("PuntajeX", 0); // Revisar en como obtener el puntaje del XML
+                    puntO = hist.getInt("PuntajeO", 0); // Revisar en como obtener el puntaje del XML
+                    Toast.makeText(MainActivity.this, "Total: O:"+Integer.toString(puntO)+" X:"+Integer.toString(puntX),Toast.LENGTH_LONG).show();
                 }
             }
         );
@@ -182,7 +180,10 @@ public class MainActivity extends AppCompatActivity {
         String[] arr = captTexto();
 
         String op;
+        //Shared (dice que se guarda en el data/data)
+        SharedPreferences hist = getSharedPreferences("HistorialPuntaje", Context.MODE_PRIVATE);
         SharedPreferences.Editor histEdit = hist.edit();
+        //int puntaje = 0;
 
         switch (cond){
             case 1:
@@ -199,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                     btnO.setVisibility(View.INVISIBLE);
                     btnX.setVisibility(View.INVISIBLE);
                     btnReinicio.setVisibility(View.VISIBLE);
-                    histEdit.putInt("Puntaje O", puntO); // Aqui pensar en como inicializar
+                    histEdit.putInt("PuntajeO", puntO + 1); // Probar
                     histEdit.commit();
                 } else {
                     Toast.makeText(this, "Sigue el jugador 2 (X)", Toast.LENGTH_SHORT).show();
@@ -221,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
                     btnO.setVisibility(View.INVISIBLE);
                     btnX.setVisibility(View.INVISIBLE);
                     btnReinicio.setVisibility(View.VISIBLE);
-                    histEdit.putInt("Puntaje X", puntX); // Aqui pensar en como inicializar
+                    histEdit.putInt("PuntajeX", puntX + 1); // Probar
                     histEdit.commit();
                 } else {
                     Toast.makeText(this, "Sigue el jugador 1 (O)", Toast.LENGTH_SHORT).show();
