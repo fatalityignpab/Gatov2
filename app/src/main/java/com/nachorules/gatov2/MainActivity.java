@@ -1,29 +1,39 @@
 package com.nachorules.gatov2;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     
     EditText txtCuadro1,txtCuadro2,txtCuadro3,txtCuadro4,txtCuadro5,txtCuadro6,txtCuadro7,txtCuadro8,txtCuadro9;
-    Button btnX,btnO,btnReinicio;
+    Button btnX,btnO,btnReinicio, btnHistorial;
     TextView lblNombre;
     private String s1,s2,s3,s4,s5,s6,s7,s8,s9;
-    private int hola; // Prueba para ver si funciona el Github
+    private int puntX, puntO; // Para los puntajes (Primero se lee y luego se escribe)
+
+    //Shared (dice que se guarda en el data/data)
+    private final SharedPreferences hist = getSharedPreferences("Historial", Context.MODE_PRIVATE);
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Botones
         btnX = (Button) findViewById(R.id.btnX);
         btnO = (Button) findViewById(R.id.btnO);
         btnReinicio = (Button) findViewById(R.id.btnReinicio);
+        btnHistorial = (Button) findViewById(R.id.btnHist);
+
+        // Campos de texto
         txtCuadro1 = (EditText) findViewById(R.id.txtCuadro1);
         txtCuadro2 = (EditText) findViewById(R.id.txtCuadro2);
         txtCuadro3 = (EditText) findViewById(R.id.txtCuadro3);
@@ -33,8 +43,15 @@ public class MainActivity extends AppCompatActivity {
         txtCuadro7 = (EditText) findViewById(R.id.txtCuadro7);
         txtCuadro8 = (EditText) findViewById(R.id.txtCuadro8);
         txtCuadro9 = (EditText) findViewById(R.id.txtCuadro9);
+
+        //Labels
         lblNombre = (TextView) findViewById(R.id.lblNombre);
 
+        //Obtener Puntos
+        puntX = hist.getInt("Puntaje X", 0); // Revisar en como obtener el puntaje del XML
+        puntO = hist.getInt("Puntaje O", 0); // Revisar en como obtener el puntaje del XML
+
+        //Acciones de los botones
         btnO.setOnClickListener(
             new View.OnClickListener() {
                 @Override
@@ -62,10 +79,20 @@ public class MainActivity extends AppCompatActivity {
             }
         );
 
+        btnHistorial.setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    hist.getInt("Puntaje X", 0); // Revisar
+                }
+            }
+        );
+
+        // Nombre de los 2
         lblNombre.setText("Ignacio Orozco");
     }
 
-    public String[] captTexto(){
+    public String[] captTexto(){ // Tratar de eliminar xq no se usara (creo q no :v)
         s1 = txtCuadro1.getText().toString();
         s2 = txtCuadro2.getText().toString();
         s3 = txtCuadro3.getText().toString();
@@ -155,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
         String[] arr = captTexto();
 
         String op;
+        SharedPreferences.Editor histEdit = hist.edit();
 
         switch (cond){
             case 1:
@@ -171,6 +199,8 @@ public class MainActivity extends AppCompatActivity {
                     btnO.setVisibility(View.INVISIBLE);
                     btnX.setVisibility(View.INVISIBLE);
                     btnReinicio.setVisibility(View.VISIBLE);
+                    histEdit.putInt("Puntaje O", puntO); // Aqui pensar en como inicializar
+                    histEdit.commit();
                 } else {
                     Toast.makeText(this, "Sigue el jugador 2 (X)", Toast.LENGTH_SHORT).show();
                     btnO.setVisibility(View.INVISIBLE);
@@ -191,6 +221,8 @@ public class MainActivity extends AppCompatActivity {
                     btnO.setVisibility(View.INVISIBLE);
                     btnX.setVisibility(View.INVISIBLE);
                     btnReinicio.setVisibility(View.VISIBLE);
+                    histEdit.putInt("Puntaje X", puntX); // Aqui pensar en como inicializar
+                    histEdit.commit();
                 } else {
                     Toast.makeText(this, "Sigue el jugador 1 (O)", Toast.LENGTH_SHORT).show();
                     btnO.setVisibility(View.VISIBLE);

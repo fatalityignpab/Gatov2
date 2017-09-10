@@ -41,7 +41,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:hint="*"
-            android:textSize="30pt" />
+            android:textSize="30pt"
+            android:background="#80DE6A"/>
 
         <EditText
             android:id="@+id/txtCuadro2"
@@ -49,7 +50,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:hint="*"
-            android:textSize="30pt" />
+            android:textSize="30pt"
+            android:background="#FDCC7F"/>
 
         <EditText
             android:id="@+id/txtCuadro3"
@@ -57,7 +59,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:hint="*"
-            android:textSize="30pt" />
+            android:textSize="30pt"
+            android:background="#80DE6A"/>
     </LinearLayout>
 
     <LinearLayout
@@ -72,7 +75,8 @@
                 android:gravity="center"
                 android:layout_height="wrap_content"
                 android:hint="*"
-                android:textSize="30pt" />
+                android:textSize="30pt"
+                android:background="#FDCC7F"/>
 
             <EditText
                 android:id="@+id/txtCuadro5"
@@ -80,7 +84,8 @@
                 android:gravity="center"
                 android:layout_height="wrap_content"
                 android:hint="*"
-                android:textSize="30pt" />
+                android:textSize="30pt"
+                android:background="#80DE6A"/>
 
             <EditText
                 android:id="@+id/txtCuadro6"
@@ -88,36 +93,43 @@
                 android:gravity="center"
                 android:layout_height="wrap_content"
                 android:hint="*"
-                android:textSize="30pt" />
+                android:textSize="30pt"
+                android:background="#FDCC7F"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/txtCuadro7"
+            android:layout_width="40pt"
             android:layout_height="wrap_content"
-            android:gravity="center">
-            <EditText
-                android:id="@+id/txtCuadro7"
-                android:layout_width="40pt"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:hint="*"
-                android:textSize="30pt"/>
-            <EditText
-                android:id="@+id/txtCuadro8"
-                android:layout_width="40pt"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:hint="*"
-                android:textSize="30pt"/>
-            <EditText
-                android:id="@+id/txtCuadro9"
-                android:layout_width="40pt"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:hint="*"
-                android:textSize="30pt"/>
-        </LinearLayout>
+            android:background="#80DE6A"
+            android:gravity="center"
+            android:hint="*"
+            android:textSize="30pt" />
+
+        <EditText
+            android:id="@+id/txtCuadro8"
+            android:layout_width="40pt"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="*"
+            android:textSize="30pt"
+            android:background="#FDCC7F"/>
+
+        <EditText
+            android:id="@+id/txtCuadro9"
+            android:layout_width="40pt"
+            android:layout_height="wrap_content"
+            android:background="#80DE6A"
+            android:gravity="center"
+            android:hint="*"
+            android:textSize="30pt" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -156,6 +168,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Reiniciar"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Historial"
+            android:id="@+id/btnHist"
+            android:visibility="invisible"/>
 
     </LinearLayout>
 
