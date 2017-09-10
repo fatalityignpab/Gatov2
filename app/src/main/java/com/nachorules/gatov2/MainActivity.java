@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //btnO_click();
                     btnClicko(1);
                 }
             }
@@ -49,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //bntX_click();
                     btnClicko(2);
                 }
             }
@@ -103,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         btnReinicio.setVisibility(View.INVISIBLE);
     }
 
-    public void cambioColor(String letra, String[] o){
+    public void cambioColor(String letra, String[] o){ // Revisar el porque se detiene la app
         String color = "000000";
         switch (letra){
             case "O":
@@ -202,40 +200,6 @@ public class MainActivity extends AppCompatActivity {
             default:
                 Toast.makeText(this,"Hay un error de caracter", Toast.LENGTH_SHORT);
                 break;
-        }
-    }
-
-    public void btnO_click(){
-        String[] o = captTexto();
-        //cambioColor("O", o);
-        if ((o[0].equals(o[1]) && o[0].equals(o[2])) || (o[3].equals(o[4]) && o[3].equals(o[5])) || (o[6].equals(o[7]) && o[6].equals(o[8]))
-                || (o[0].equals(o[3]) && o[0].equals(o[6])) || (o[1].equals(o[4]) && o[1].equals(o[7])) || (o[2].equals(o[5]) && o[2].equals(o[8]))
-                || (o[0].equals(o[4]) && o[0].equals(o[8])) || (o[2].equals(o[4]) && o[2].equals(o[6]))){
-            Toast.makeText(this, "Gana el jugador 1 (O)", Toast.LENGTH_SHORT).show();
-            btnO.setVisibility(View.INVISIBLE);
-            btnX.setVisibility(View.INVISIBLE);
-            btnReinicio.setVisibility(View.VISIBLE);
-        } else {
-            Toast.makeText(this, "Sigue el jugador 2 (X)", Toast.LENGTH_SHORT).show();
-            btnO.setVisibility(View.INVISIBLE);
-            btnX.setVisibility(View.VISIBLE);
-        }
-    }
-
-    public void bntX_click(){
-        String[] x = captTexto();
-        //cambioColor("X", x);
-        if ((x[0].equals(x[1]) && x[0].equals(x[2])) || (x[3].equals(x[4]) && x[3].equals(x[5])) || (x[6].equals(x[7]) && x[6].equals(x[8]))
-                || (x[0].equals(x[3]) && x[0].equals(x[6])) || (x[1].equals(x[4]) && x[1].equals(x[7])) || (x[2].equals(x[5]) && x[2].equals(x[8]))
-                || (x[0].equals(x[4]) && x[0].equals(x[8])) || (x[2].equals(x[4]) && x[2].equals(x[6]))){
-            Toast.makeText(this, "Gana el jugador 2 (X)", Toast.LENGTH_SHORT).show();
-            btnO.setVisibility(View.INVISIBLE);
-            btnX.setVisibility(View.INVISIBLE);
-            btnReinicio.setVisibility(View.VISIBLE);
-        } else {
-            Toast.makeText(this, "Sigue el jugador 1 (O)", Toast.LENGTH_SHORT).show();
-            btnO.setVisibility(View.VISIBLE);
-            btnX.setVisibility(View.INVISIBLE);
         }
     }
 }
