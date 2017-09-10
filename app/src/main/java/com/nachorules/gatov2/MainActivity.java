@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     
     EditText txtCuadro1,txtCuadro2,txtCuadro3,txtCuadro4,txtCuadro5,txtCuadro6,txtCuadro7,txtCuadro8,txtCuadro9;
     Button btnX,btnO,btnReinicio, btnHistorial;
-    TextView lblNombre;
+    TextView lblNombre, lblTitulo;
     private String s1,s2,s3,s4,s5,s6,s7,s8,s9;
     private int puntX = 0, puntO = 0; // Para los puntajes (Primero se lee y luego se escribe)
     
@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Labels
         lblNombre = (TextView) findViewById(R.id.lblNombre);
+        lblTitulo = (TextView) findViewById(R.id.lblTitulo);
 
         //Acciones de los botones
         btnO.setOnClickListener(
@@ -85,9 +86,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         );
-
-        // Nombre de los 2
-        lblNombre.setText("Ignacio Orozco");
+        lblNombre.setText("Selecciona quien jugara");
+        lblNombre.setTextSize(20);
+        lblTitulo.setVisibility(View.INVISIBLE);
     }
 
     public String[] captTexto(){ // Tratar de eliminar xq no se usara (creo q no :v)
@@ -183,11 +184,14 @@ public class MainActivity extends AppCompatActivity {
         //Shared (dice que se guarda en el data/data)
         SharedPreferences hist = getSharedPreferences("HistorialPuntaje", Context.MODE_PRIVATE);
         SharedPreferences.Editor histEdit = hist.edit();
+        lblTitulo.setVisibility(View.VISIBLE);
+        lblNombre.setTextSize(25);
         //int puntaje = 0;
 
         switch (cond){
             case 1:
                 op = "O";
+                lblNombre.setText("Ignacio Orozco");
                 if ((arr[0].equals(op) && arr[1].equals(op) && arr[2].equals(op))
                         || (arr[3].equals(op) && arr[4].equals(op) && arr[5].equals(op))
                         || (arr[6].equals(op) && arr[7].equals(op) && arr[8].equals(op))
@@ -210,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 2:
                 op = "X";
+                lblNombre.setText("Kevin Enrique");
                 if ((arr[0].equals(op) && arr[1].equals(op) && arr[2].equals(op))
                         || (arr[3].equals(op) && arr[4].equals(op) && arr[5].equals(op))
                         || (arr[6].equals(op) && arr[7].equals(op) && arr[8].equals(op))

@@ -17,7 +17,8 @@
             android:layout_height="wrap_content"
             android:text="Jugador: "
             android:textSize="12pt"
-            android:textColor="#1613A5"/>
+            android:textColor="#1613A5"
+            android:id="@+id/lblTitulo"/>
 
         <TextView
             android:id="@+id/lblNombre"
