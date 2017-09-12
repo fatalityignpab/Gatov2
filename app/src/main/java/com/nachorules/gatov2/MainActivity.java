@@ -45,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
         lblNombre = (TextView) findViewById(R.id.lblNombre);
         lblTitulo = (TextView) findViewById(R.id.lblTitulo);
 
+        //Shared (dice que se guarda en el data/data)
+        final SharedPreferences hist = getSharedPreferences("HistorialPuntaje", Context.MODE_PRIVATE);
+        puntX = hist.getInt("PuntajeX", 0); // Revisar en como obtener el puntaje del XML
+        puntO = hist.getInt("PuntajeO", 0); // Revisar en como obtener el puntaje del XML
+
         //Acciones de los botones
         btnO.setOnClickListener(
             new View.OnClickListener() {
@@ -73,16 +78,13 @@ public class MainActivity extends AppCompatActivity {
             }
         );
 
-        //Shared (dice que se guarda en el data/data)
-        final SharedPreferences hist = getSharedPreferences("HistorialPuntaje", Context.MODE_PRIVATE);
-
         btnHistorial.setOnClickListener(
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     puntX = hist.getInt("PuntajeX", 0); // Revisar en como obtener el puntaje del XML
-                    puntO = hist.getInt("PuntajeO", 0); // Revisar en como obtener el puntaje del XML
-                    Toast.makeText(MainActivity.this, "Total: O:"+Integer.toString(puntO)+" X:"+Integer.toString(puntX),Toast.LENGTH_LONG).show();
+                    puntO = hist.getInt("PuntajeO", 0); // Doble afirmacion
+                    Toast.makeText(MainActivity.this, "Total: O:"+Integer.toString(puntO)+" ganados X:"+Integer.toString(puntX)+" ganados",Toast.LENGTH_LONG).show();
                 }
             }
         );
@@ -125,6 +127,10 @@ public class MainActivity extends AppCompatActivity {
         btnO.setVisibility(View.VISIBLE);
         btnX.setVisibility(View.VISIBLE);
         btnReinicio.setVisibility(View.INVISIBLE);
+
+        lblNombre.setText("Selecciona quien jugara");
+        lblNombre.setTextSize(20);
+        lblTitulo.setVisibility(View.INVISIBLE);
     }
 
     public void cambioColor(String letra, String[] o){ // Revisar el porque se detiene la app
