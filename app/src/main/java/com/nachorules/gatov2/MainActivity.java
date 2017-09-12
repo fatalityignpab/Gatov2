@@ -2,6 +2,7 @@ package com.nachorules.gatov2;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,12 +13,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    
+
+    // Se pone focusable para que no muestre el teclado
     EditText txtCuadro1,txtCuadro2,txtCuadro3,txtCuadro4,txtCuadro5,txtCuadro6,txtCuadro7,txtCuadro8,txtCuadro9;
     Button btnX,btnO,btnReinicio, btnHistorial;
     TextView lblNombre, lblTitulo;
+
     private String s1,s2,s3,s4,s5,s6,s7,s8,s9;
-    private int puntX = 0, puntO = 0; // Para los puntajes (Primero se lee y luego se escribe)
+    private int puntX = 0, puntO = 0, turno = 0; // Para los puntajes (Primero se lee y luego se escribe)
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,17 @@ public class MainActivity extends AppCompatActivity {
         txtCuadro8 = (EditText) findViewById(R.id.txtCuadro8);
         txtCuadro9 = (EditText) findViewById(R.id.txtCuadro9);
 
+        // Evita que los EditText se ponga en teclado
+        txtCuadro1.setFocusable(false);
+        txtCuadro2.setFocusable(false);
+        txtCuadro3.setFocusable(false);
+        txtCuadro4.setFocusable(false);
+        txtCuadro5.setFocusable(false);
+        txtCuadro6.setFocusable(false);
+        txtCuadro7.setFocusable(false);
+        txtCuadro8.setFocusable(false);
+        txtCuadro9.setFocusable(false);
+
         //Labels
         lblNombre = (TextView) findViewById(R.id.lblNombre);
         lblTitulo = (TextView) findViewById(R.id.lblTitulo);
@@ -51,11 +65,12 @@ public class MainActivity extends AppCompatActivity {
         puntO = hist.getInt("PuntajeO", 0); // Revisar en como obtener el puntaje del XML
 
         //Acciones de los botones
-        btnO.setOnClickListener(
+        btnO.setOnClickListener( // Ya solo serviria para los turnos
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    btnClicko(1);
+                    //btnClicko(1);
+                    inicioTurno(1);
                 }
             }
         );
@@ -64,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    btnClicko(2);
+                    //btnClicko(2);
+                    inicioTurno(2);
                 }
             }
         );
@@ -82,12 +98,13 @@ public class MainActivity extends AppCompatActivity {
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    puntX = hist.getInt("PuntajeX", 0); // Revisar en como obtener el puntaje del XML
+                    puntX = hist.getInt("PuntajeX", 0); // Doble afirmacion
                     puntO = hist.getInt("PuntajeO", 0); // Doble afirmacion
                     Toast.makeText(MainActivity.this, "Total: O:"+Integer.toString(puntO)+" ganados X:"+Integer.toString(puntX)+" ganados",Toast.LENGTH_LONG).show();
                 }
             }
         );
+
         lblNombre.setText("Selecciona quien jugara");
         lblNombre.setTextSize(20);
         lblTitulo.setVisibility(View.INVISIBLE);
@@ -133,54 +150,78 @@ public class MainActivity extends AppCompatActivity {
         lblTitulo.setVisibility(View.INVISIBLE);
     }
 
-    public void cambioColor(String letra, String[] o){ // Revisar el porque se detiene la app
-        String color = "000000";
-        switch (letra){
-            case "O":
-                color = "C31111";
-                if (o[0].equals("O"))
-                    txtCuadro1.setTextColor(Integer.parseInt(color));
-                if (o[1].equals("O"))
-                    txtCuadro2.setTextColor(Integer.parseInt(color));
-                if (o[2].equals("O"))
-                    txtCuadro3.setTextColor(Integer.parseInt(color));
-                if (o[3].equals("O"))
-                    txtCuadro4.setTextColor(Integer.parseInt(color));
-                if (o[4].equals("O"))
-                    txtCuadro5.setTextColor(Integer.parseInt(color));
-                if (o[5].equals("O"))
-                    txtCuadro6.setTextColor(Integer.parseInt(color));
-                if (o[6].equals("O"))
-                    txtCuadro7.setTextColor(Integer.parseInt(color));
-                if (o[7].equals("O"))
-                    txtCuadro8.setTextColor(Integer.parseInt(color));
-                if (o[8].equals("O"))
-                    txtCuadro9.setTextColor(Integer.parseInt(color));
-                break;
-            case "X":
-                color = "4049FE";
-                if (o[0].equals("X"))
-                    txtCuadro1.setTextColor(Integer.parseInt(color));
-                if (o[1].equals("X"))
-                    txtCuadro2.setTextColor(Integer.parseInt(color));
-                if (o[2].equals("X"))
-                    txtCuadro3.setTextColor(Integer.parseInt(color));
-                if (o[3].equals("X"))
-                    txtCuadro4.setTextColor(Integer.parseInt(color));
-                if (o[4].equals("X"))
-                    txtCuadro5.setTextColor(Integer.parseInt(color));
-                if (o[5].equals("X"))
-                    txtCuadro6.setTextColor(Integer.parseInt(color));
-                if (o[6].equals("X"))
-                    txtCuadro7.setTextColor(Integer.parseInt(color));
-                if (o[7].equals("X"))
-                    txtCuadro8.setTextColor(Integer.parseInt(color));
-                if (o[8].equals("X"))
-                    txtCuadro9.setTextColor(Integer.parseInt(color));
-                break;
+    public void cambioColor(int cond, String[] arr){
+        String color = "#000000", op = "";
+
+        if (cond == 1){
+            color = "#C31111";
+            op = "O";
+        } else {
+            color = "#4049FE";
+            op = "X";
         }
 
+        if (arr[0].equals(op) && arr[1].equals(op) && arr[2].equals(op)){
+            txtCuadro1.setTextColor(Color.parseColor(color));
+            txtCuadro2.setTextColor(Color.parseColor(color));
+            txtCuadro3.setTextColor(Color.parseColor(color));
+        }
 
+        if (arr[3].equals(op) && arr[4].equals(op) && arr[5].equals(op)){
+            txtCuadro4.setTextColor(Color.parseColor(color));
+            txtCuadro5.setTextColor(Color.parseColor(color));
+            txtCuadro6.setTextColor(Color.parseColor(color));
+        }
+
+        if (arr[6].equals(op) && arr[7].equals(op) && arr[8].equals(op)){
+            txtCuadro7.setTextColor(Color.parseColor(color));
+            txtCuadro8.setTextColor(Color.parseColor(color));
+            txtCuadro9.setTextColor(Color.parseColor(color));
+        }
+
+        if (arr[0].equals(op) && arr[3].equals(op) && arr[6].equals(op)){
+            txtCuadro1.setTextColor(Color.parseColor(color));
+            txtCuadro4.setTextColor(Color.parseColor(color));
+            txtCuadro5.setTextColor(Color.parseColor(color));
+        }
+
+        if (arr[1].equals(op) && arr[4].equals(op) && arr[7].equals(op)){
+            txtCuadro2.setTextColor(Color.parseColor(color));
+            txtCuadro5.setTextColor(Color.parseColor(color));
+            txtCuadro8.setTextColor(Color.parseColor(color));
+        }
+
+        if (arr[2].equals(op) && arr[5].equals(op) && arr[8].equals(op)){
+            txtCuadro3.setTextColor(Color.parseColor(color));
+            txtCuadro6.setTextColor(Color.parseColor(color));
+            txtCuadro9.setTextColor(Color.parseColor(color));
+        }
+
+        if (arr[0].equals(op) && arr[4].equals(op) && arr[8].equals(op)){
+            txtCuadro1.setTextColor(Color.parseColor(color));
+            txtCuadro5.setTextColor(Color.parseColor(color));
+            txtCuadro9.setTextColor(Color.parseColor(color));
+        }
+
+        if (arr[2].equals(op) && arr[4].equals(op) && arr[6].equals(op)){
+            txtCuadro3.setTextColor(Color.parseColor(color));
+            txtCuadro5.setTextColor(Color.parseColor(color));
+            txtCuadro7.setTextColor(Color.parseColor(color));
+        }
+
+    }
+
+    public void inicioTurno(int cond){
+        switch (cond){
+            case 1:
+                turno = 1;
+                break;
+            case 2:
+                turno = 2;
+                break;
+        }
+        btnO.setVisibility(View.INVISIBLE);
+        btnX.setVisibility(View.INVISIBLE);
     }
 
     public void btnClicko(int cond){
@@ -192,7 +233,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor histEdit = hist.edit();
         lblTitulo.setVisibility(View.VISIBLE);
         lblNombre.setTextSize(25);
-        //int puntaje = 0;
 
         switch (cond){
             case 1:
@@ -206,14 +246,20 @@ public class MainActivity extends AppCompatActivity {
                         || (arr[2].equals(op) && arr[5].equals(op) && arr[8].equals(op))
                         || (arr[0].equals(op) && arr[4].equals(op) && arr[8].equals(op))
                         || (arr[2].equals(op) && arr[4].equals(op) && arr[6].equals(op))){
-                    Toast.makeText(this, "Gana el jugador 1 (O)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Gana "+lblNombre.getText().toString()+" (O)", Toast.LENGTH_SHORT).show();
+
+                    lblNombre.setText("Ignacio Orozco");
+                    lblTitulo.setText("Ganador:");
+                    cambioColor(1,arr);
+
                     btnO.setVisibility(View.INVISIBLE);
                     btnX.setVisibility(View.INVISIBLE);
                     btnReinicio.setVisibility(View.VISIBLE);
                     histEdit.putInt("PuntajeO", puntO + 1); // Probar
                     histEdit.commit();
                 } else {
-                    Toast.makeText(this, "Sigue el jugador 2 (X)", Toast.LENGTH_SHORT).show();
+                    lblNombre.setText("Kevin Enrique");
+                    Toast.makeText(this, "Sigue "+lblNombre.getText().toString()+" (X)", Toast.LENGTH_SHORT).show();
                     btnO.setVisibility(View.INVISIBLE);
                     btnX.setVisibility(View.VISIBLE);
                 }
@@ -229,20 +275,26 @@ public class MainActivity extends AppCompatActivity {
                         || (arr[2].equals(op) && arr[5].equals(op) && arr[8].equals(op))
                         || (arr[0].equals(op) && arr[4].equals(op) && arr[8].equals(op))
                         || (arr[2].equals(op) && arr[4].equals(op) && arr[6].equals(op))){
-                    Toast.makeText(this, "Gana el jugador 2 (X)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Gana "+lblNombre.getText().toString()+" (X)", Toast.LENGTH_SHORT).show();
+
+                    lblNombre.setText("Kevin Enrique");
+                    lblTitulo.setText("Ganador:");
+                    cambioColor(2,arr);
+
                     btnO.setVisibility(View.INVISIBLE);
                     btnX.setVisibility(View.INVISIBLE);
                     btnReinicio.setVisibility(View.VISIBLE);
                     histEdit.putInt("PuntajeX", puntX + 1); // Probar
                     histEdit.commit();
                 } else {
-                    Toast.makeText(this, "Sigue el jugador 1 (O)", Toast.LENGTH_SHORT).show();
+                    lblNombre.setText("Ignacio Orozco");
+                    Toast.makeText(this, "Sigue "+lblNombre.getText().toString()+" (O)", Toast.LENGTH_SHORT).show();
                     btnO.setVisibility(View.VISIBLE);
                     btnX.setVisibility(View.INVISIBLE);
                 }
                 break;
             default:
-                Toast.makeText(this,"Hay un error de caracter", Toast.LENGTH_SHORT);
+                Toast.makeText(this,"Hay un error :'v", Toast.LENGTH_SHORT);
                 break;
         }
     }
